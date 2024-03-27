@@ -3,8 +3,8 @@
 
 Este projeto consiste em um dashboard simples que analisa uma planilha do Google Sheets para identificar as empresas mais mencionadas em relação a comportamentos tóxicos no ambiente de trabalho. Ele permite aos usuários visualizar a contagem de ocorrências de palavras-chave específicas em relação a cada empresa listada na planilha.
 
-[EMPRESAS TÓXICAS BRASIL](https://opensource.org/licenses/MIT](https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview)
-[EMPRESAS TÓXICAS BRASIL - FORMULÁRIO](https://docs.google.com/forms/d/e/1FAIpQLSdsmCP5YB4zgtfhR5xLFeqoCMDBVVcNLe2KIzAdJelwPs5-1A/viewform)
+[EMPRESAS TÓXICAS BRASIL](https://opensource.org/licenses/MIT](https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview).
+[EMPRESAS TÓXICAS BRASIL - FORMULÁRIO](https://docs.google.com/forms/d/e/1FAIpQLSdsmCP5YB4zgtfhR5xLFeqoCMDBVVcNLe2KIzAdJelwPs5-1A/viewform).
 
 ## Funcionalidades
 
