@@ -3,7 +3,8 @@
 
 Este projeto consiste em um dashboard simples que analisa uma planilha do Google Sheets para identificar as empresas mais mencionadas em relação a comportamentos tóxicos no ambiente de trabalho. Ele permite aos usuários visualizar a contagem de ocorrências de palavras-chave específicas em relação a cada empresa listada na planilha.
 
-[EMPRESAS TÓXICAS BRASIL](https://opensource.org/licenses/MIT](https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview).
+[EMPRESAS TÓXICAS BRASIL](https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview).
+
 [EMPRESAS TÓXICAS BRASIL - FORMULÁRIO](https://docs.google.com/forms/d/e/1FAIpQLSdsmCP5YB4zgtfhR5xLFeqoCMDBVVcNLe2KIzAdJelwPs5-1A/viewform).
 
 ## Funcionalidades
@@ -18,7 +19,6 @@ Este projeto consiste em um dashboard simples que analisa uma planilha do Google
 
 - Python 3.x
 - Bibliotecas Python: pandas, plotly, streamlit, nltk
-- Conta no Google para acessar a planilha
 
 ## Instalação e Uso
 
@@ -44,9 +44,8 @@ streamlit run app.py
 
 ## Observações
 
-- Certifique-se de ter permissão de acesso à planilha do Google Sheets. Caso contrário, o aplicativo não poderá extrair os dados corretamente.
-
 - O dicionário utilizado para traduzir os nomes das empresas pode ser atualizado conforme necessário para incluir mais variações ou empresas adicionais.
+  
 
 ## Contribuição
 
@@ -56,6 +55,4 @@ Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests c
 
 Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
 
----
 
-Lembre-se de substituir `seu-usuario` e `nome-do-repositorio` com seu nome de usuário do GitHub e o nome do repositório, respectivamente. Adapte as instruções de instalação e uso conforme necessário para refletir a estrutura do seu projeto.
