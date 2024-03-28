@@ -4,6 +4,7 @@ import plotly.express as px
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 import time
+from path import Path
 
 EMPRESAS = [
     "Wise System",
@@ -57,7 +58,7 @@ EMPRESAS = [
     "Instituto Proa",
     "Kanastra",
     "MadeiraMadeira",
-    "americanas",
+    "Americanas",
     "Banco Pan",
     "CERC",
     "Globo",
@@ -137,9 +138,16 @@ SUBS = {"itaú unibanco": "itaú",
 
 MOTIVOS = ["Racismo", "Machismo", "Burnout", "Abuso", "Toxicidade", "Salário baixo", "Liderença", 'Homofobia','Hostil', 'Sexismo', 'Xenofobia']
 
+current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
+css_file = current_dir / "styles" / "main.css"
+
 def st_init():
 
-    st.set_page_config(layout='wide')
+    st.set_page_config(layout='wide', page_title='Worst to Work', page_icon="📊")
+
+    with open(css_file) as f:
+        st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
+
     st.title("EMPRESAS TÓXICAS BRASIL")
    
     st.sidebar.image('https://worstplacetowork.com.br/wp-content/uploads/2024/03/worstplacetoworklogo.png')
@@ -240,11 +248,13 @@ def chart(novo_df, escolha, df):
                 y=novo_df['Match'], 
                 text=novo_df['Match'],
                 template='presentation',
+                title=escolha,
                 
             )
 
         fig.update_layout(yaxis={'categoryorder': 'total ascending'})
         fig.update_layout(height=(800))
+        
         fig.for_each_xaxis(lambda x: x.update(showgrid=True))
         
         fig.update_traces(
@@ -260,9 +270,15 @@ def chart(novo_df, escolha, df):
                 cliponaxis=False,
                 insidetextanchor="middle",
                 hovertemplate=None,
-                textfont_color='black'
+                textfont_color='#000000 '
             
             )
+        
+        fig.update_layout(
+            
+            title_font=dict(size=24),
+           
+        )
         
         container = st.container()
 
