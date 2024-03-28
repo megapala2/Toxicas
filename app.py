@@ -4,7 +4,8 @@ import plotly.express as px
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 import time
-from path import Path
+from pathlib import Path
+import os
 
 EMPRESAS = [
     "Wise System",
