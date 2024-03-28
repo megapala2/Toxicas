@@ -1,4 +1,3 @@
-
 # Dashboard de Empresas Tóxicas do Brasil
 
 Este projeto consiste em um dashboard simples que analisa uma planilha do Google Sheets para identificar as empresas mais mencionadas em relação a comportamentos tóxicos no ambiente de trabalho. Ele permite aos usuários visualizar a contagem de ocorrências de palavras-chave específicas em relação a cada empresa listada na planilha.
@@ -15,18 +14,23 @@ Este projeto consiste em um dashboard simples que analisa uma planilha do Google
 
 - **Filtragem por Ocorrência de Palavras-chave:** Permite aos usuários filtrar as ocorrências de palavras-chave, como "racismo", "machismo", "assédio", entre outras, para visualizar a contagem dessas ocorrências para cada empresa listada.
 
-Requisitos
-Python 3.x
-Bibliotecas Python: pandas, plotly, streamlit, nltk
-Conta no Google para acessar a planilha
-Instalação e Uso
-Clone o repositório para o seu ambiente local:
-bash
-Copy code
-git clone https://github.com/megapala2/Toxicas
-Instale as dependências do projeto:
-Copy code
-pip install pandas plotly streamlit nltk
+## Requisitos
+
+- Python 3.x
+- Bibliotecas Python: pandas, plotly, streamlit, fuzzywuzzy
+
+## Instalação e Uso
+
+1. Clone o repositório para o seu ambiente local:
+
+```
+git clone https://github.com/megapala2/Toxicas.git
+```
+
+2. Instale as dependências do projeto:
+
+```
+pip install pandas plotly streamlit fuzzywuzzy
 ```
 
 3. Execute o aplicativo Streamlit:
@@ -45,9 +49,11 @@ streamlit run app.py
 ## Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests com melhorias, correções de bugs ou novas funcionalidades.
+Principalmente para adicionar novas empresas na lista!
 
 ## Licença
 
 Este projeto está licenciado sob a [MIT License](https://opensource.org/licenses/MIT).
+
 
 
