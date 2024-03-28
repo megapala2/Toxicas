@@ -148,22 +148,34 @@ def st_init():
 @st.cache_data
 def save_df():
 
-    df = pd.read_csv('https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/export?format=csv')
-        
-    df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
-    df['Empresa'] =  df['Empresa'].astype(str)
-    df['Motivos'] = df['Motivos'].astype(str)
-    df['Empresa'] = df['Empresa'].str.lower().str.strip()
-    df['Motivos'] = df['Motivos'].str.lower().str.strip()
+    try:
    
-    df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
-    df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
+        df = pd.read_csv('https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/export?format=csv')
+            
+        df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
+        df['Empresa'] =  df['Empresa'].astype(str)
+        df['Motivos'] = df['Motivos'].astype(str)
+        df['Empresa'] = df['Empresa'].str.lower().str.strip()
+        df['Motivos'] = df['Motivos'].str.lower().str.strip()
     
-    
-    df = df.drop(df[df['Match'] == 'NA'].index)
-    df = fuzzzz.verificar_ocorrencias(df)
+        df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
+        df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
+        
+        
+        df = df.drop(df[df['Match'] == 'NA'].index)
+        df = fuzzzz.verificar_ocorrencias(df)
+        return df
 
-    return df
+    except:
+
+        with st.spinner('Erro ao carregar a planilha do Google Sheets, pegando arquivo backup!'):
+            time.sleep(5)
+            try:
+                 df = save_df_two()
+                 return df
+            except:
+                 st.warning("Erro ao carregar TUDO X.X")
+
 
 @st.cache_data
 def save_df_two():
