@@ -231,10 +231,12 @@ def chart(novo_df, escolha, df):
 
         fig.update_layout(yaxis={'categoryorder': 'total ascending'})
         fig.update_layout(height=(800))
+        fig.update_layout(xaxis={"dtick":1},margin={"t":0,"b":0},height=800)
+        fig.for_each_xaxis(lambda x: x.update(showgrid=True))
 
         fig.update_traces(
                 textfont_size=19, 
-                textposition="inside", 
+                textposition="inside",
                 cliponaxis=False,
                 insidetextanchor="middle",
                 hovertemplate=None,
