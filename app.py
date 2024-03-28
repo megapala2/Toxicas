@@ -141,10 +141,11 @@ def st_init():
 
     st.set_page_config(layout='wide')
     st.title("EMPRESAS TÓXICAS BRASIL")
-    st.info("Planilha fonte: https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview")
-    st.info('Formulário para preencher: https://docs.google.com/forms/d/e/1FAIpQLSdsmCP5YB4zgtfhR5xLFeqoCMDBVVcNLe2KIzAdJelwPs5-1A/viewform')
+   
     st.sidebar.image('https://worstplacetowork.com.br/wp-content/uploads/2024/03/worstplacetoworklogo.png')
-
+    fonte = st.sidebar.info("Planilha fonte: https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview")
+    form = st.sidebar.info('Formulário para preencher: https://docs.google.com/forms/d/e/1FAIpQLSdsmCP5YB4zgtfhR5xLFeqoCMDBVVcNLe2KIzAdJelwPs5-1A/viewform')
+   
 @st.cache_data
 def save_df():
 
@@ -180,6 +181,7 @@ def save_df():
 @st.cache_data
 def save_df_two():
 
+    st.sidebar.warning('A planilha está interditada! Logo estaremos usando um arquivo de backup de 28/03/2024!')
     df = df = pd.read_csv('assets/DADOS.csv')
         
     df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
