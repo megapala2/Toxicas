@@ -157,7 +157,7 @@ SUBS = {"itaú unibanco": "itaú",
 
 }
 
-MOTIVOS = ["Racismo", "Machismo", "Burnout", "Abuso", "Toxicidade", "Salário baixo", "Liderença", 'Homofobia','Hostil', 'Sexismo', 'Xenofobia']
+MOTIVOS = ["Racismo", "Machismo", "Burnout", "Assédio", "Toxicidade", "Salário", "Liderença", 'Homofobia','Hostil', 'Sexismo', 'Xenofobia']
 
 current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 css_file = current_dir / "styles" / "main.css"
