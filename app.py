@@ -312,7 +312,7 @@ class fuzzzz:
         for target in EMPRESAS:
            
             ratio = fuzz.ratio(name.lower(), target.lower()) 
-            if ratio > 80:  
+            if ratio > 50:  
                 return target
             
         return "NA"
