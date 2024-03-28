@@ -180,7 +180,7 @@ def save_df():
 @st.cache_data
 def save_df_two():
 
-    df = df = pd.read_excel('assets/DADOS.xlsx')
+    df = df = pd.read_csv('assets/DADOS.csv')
         
     df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
     df['Empresa'] =  df['Empresa'].astype(str)
@@ -253,7 +253,7 @@ def chart(novo_df, escolha, df):
                 )
 
         fig.update_traces(
-                textfont_size=19, 
+                textfont_size=21, 
                 textposition="inside",
                 cliponaxis=False,
                 insidetextanchor="middle",
@@ -262,7 +262,7 @@ def chart(novo_df, escolha, df):
             
             )
         
-        container = st.container(height=800)
+        container = st.container()
 
         container.plotly_chart(fig, use_container_width=True)
 
