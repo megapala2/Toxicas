@@ -28,7 +28,7 @@ EMPRESAS = [
     "99",
     "B3",
     "F1rst",
-    "Totvs",
+    "TOTVS",
     "DASA",
     "Deloitte",
     "Mercado livre",
@@ -65,7 +65,27 @@ EMPRESAS = [
     "Globo",
     "KPMG",
     "Valtech",
-    "Group Software"
+    "Group Software",
+    "Unimed",
+    "Wise",
+    "Carrefour",
+    "XP",
+    "BRQ",
+    "Serasa",
+    "Wiz",
+    "WB",
+    "Zup",
+    "Acuda",
+    "Gerdau",
+    "Isaac",
+    "Ish",
+    "4p",
+    "Zurich",
+
+
+
+
+
             ]
 
 SUBS = {"itaú unibanco": "itaú",
