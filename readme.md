@@ -16,7 +16,7 @@ Instalação e Uso
 Clone o repositório para o seu ambiente local:
 bash
 Copy code
-git clone https://github.com/megapala2/Toxicas
+git clone https://github.com/megapala2/Toxicas.git
 Instale as dependências do projeto:
 Copy code
 pip install pandas plotly streamlit nltk

@@ -1,12 +1,70 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-#from collections import Counter
-#from nltk.tokenize import word_tokenize
-#import nltk
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+import time
 
-
-#nltk.download('punkt')
+EMPRESAS = [
+    "Wise System",
+    "Accenture",
+    "vhsys",
+    "CI&T",
+    "Nestlé",
+    "IBM",
+    "Stefanini",
+    "Mottu",
+    "Itaú",
+    "Ambev",
+    "Stone",
+    "Nubank",
+    "L'Oréal",
+    "Atos Brasil",
+    "Banco Daycoval",
+    "Kabum",
+    "Teleperformance",
+    "99",
+    "B3",
+    "F1rst",
+    "Totvs",
+    "DASA",
+    "Deloitte",
+    "Mercado livre",
+    "Mundiale",
+    "Thomson Reuters",
+    "Softplan",
+    "Vivo",
+    "C6 Bank",
+    "Gupy",
+    "iFood",
+    "Santander",
+    "Bradesco",
+    "Btg Pactual",
+    "Hotmart",
+    "Grão de Gente",
+    "Mecanizou",
+    "Creditas",
+    "Dataprev",
+    "Itaú Unibanco",
+    "Locaweb",
+    "Weme",
+    "PicPay",
+    "TIVIT",
+    "Vaticano Crematório e Cemitério Sedes Paraná e Santa Catarina",
+    "BLiP",
+    "Fisk",
+    "Gft",
+    "Instituto Proa",
+    "Kanastra",
+    "MadeiraMadeira",
+    "americanas",
+    "Banco Pan",
+    "CERC",
+    "Globo",
+    "KPMG",
+    "Valtech",
+    "Group Software"
+            ]
 
 SUBS = {"itaú unibanco": "itaú",
         "itau": "itaú",
@@ -77,87 +135,160 @@ SUBS = {"itaú unibanco": "itaú",
 
 }
 
-MOTIVOS = ["racismo", "machismo", "burnout", "abuso", "ruim", "péssimo", "tóxica", "salário", "competitivo", "liderença", "rotatividade", 'homofóbica']
+MOTIVOS = ["Racismo", "Machismo", "Burnout", "Abuso", "Toxicidade", "Salário baixo", "Liderença", 'Homofobia','Hostil', 'Sexismo', 'Xenofobia']
+
+def st_init():
+
+    st.set_page_config(layout='wide')
+    st.title("EMPRESAS TÓXICAS BRASIL")
+    st.info("Planilha fonte: https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview")
+    st.info('Formulário para preencher: https://docs.google.com/forms/d/e/1FAIpQLSdsmCP5YB4zgtfhR5xLFeqoCMDBVVcNLe2KIzAdJelwPs5-1A/viewform')
+    st.sidebar.image('https://worstplacetowork.com.br/wp-content/uploads/2024/03/worstplacetoworklogo.png')
 
 @st.cache_data
 def save_df():
+
     df = pd.read_csv('https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/export?format=csv')
+        
+    df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
+    df['Empresa'] =  df['Empresa'].astype(str)
+    df['Motivos'] = df['Motivos'].astype(str)
+    df['Empresa'] = df['Empresa'].str.lower().str.strip()
+    df['Motivos'] = df['Motivos'].str.lower().str.strip()
+   
+    df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
+    df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
+    
+    
+    df = df.drop(df[df['Match'] == 'NA'].index)
+    df = fuzzzz.verificar_ocorrencias(df)
+
     return df
+
+@st.cache_data
+def save_df_two():
+
+    df = df = pd.read_excel('assets/EMPRESAS TOXICAS BRASIL-SIL-SIL (respostas).xlsx')
+        
+    df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
+    df['Empresa'] =  df['Empresa'].astype(str)
+    df['Motivos'] = df['Motivos'].astype(str)
+    df['Empresa'] = df['Empresa'].str.lower().str.strip()
+    df['Motivos'] = df['Motivos'].str.lower().str.strip()
+   
+    df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
+    df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
+    
+    
+    df = df.drop(df[df['Match'] == 'NA'].index)
+    df = fuzzzz.verificar_ocorrencias(df)
+
+    return df
+
+def motivos(df, novo_df):
+    
+    novo_df = novo_df.rename(columns={'Empresa': 'Match'})
+    
+    for motivo in MOTIVOS:
+
+        contagem_motivo = df.groupby('Match')[motivo].sum().reset_index()
+        novo_df = novo_df.merge(contagem_motivo, on='Match', how='left')
+    
+    return novo_df
+
+def chart(novo_df, escolha, df):
+
+    df['Empresa'] = df['Data']
+    df['Data'] = df['Match']
+    df = df.drop(columns='Match')
+    df = df.rename(columns={'Data':'Match', 'Empresa':'Data'})
+    df = df.reset_index()
+
+  
+
+    with st.expander("Dataframe"):
+        st.info(f"Linhas: {len(novo_df)}")
+        st.dataframe(novo_df, use_container_width=True)
+        
+        st.info(f"Linhas: {len(df)}")
+        st.dataframe(df, use_container_width=True)
+
+    if escolha:
+
+        df_filtro = novo_df.groupby('Match')[escolha].sum().reset_index(name=escolha)
+        top15 = df_filtro.nlargest(20, escolha)
+        novo_df = novo_df[novo_df['Match'].isin(top15['Match'])]
+
+
+        fig = px.bar(
+                novo_df, 
+                x=novo_df[escolha], 
+                y=novo_df['Match'], 
+                text=novo_df['Match'],
+                template='presentation',
+                
+            )
+
+        fig.update_layout(yaxis={'categoryorder': 'total ascending'})
+        fig.update_layout(height=(800))
+
+        fig.update_traces(
+                textfont_size=19, 
+                textposition="inside", 
+                cliponaxis=False,
+                insidetextanchor="middle",
+                hovertemplate=None,
+            
+
+            )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+class fuzzzz:
+
+    def find_matching_company(name):
+
+        for target in EMPRESAS:
+           
+            ratio = fuzz.ratio(name.lower(), target.lower()) 
+            if ratio > 80:  
+                return target
+            
+        return "NA"
+    
+    def verificar_ocorrencias(df):
+        for categoria in MOTIVOS:
+            # Para cada categoria, cria uma nova coluna no dataframe indicando se houve ocorrência
+            df[categoria] = df['Motivos'].str.contains(categoria, case=False)
+        return df
+
+        
     
 
-st.set_page_config(layout='wide')
+st_init()
 
-df = save_df()
+try:
+    df = save_df()
+except:
+    with st.spinner('Erro ao carregar a planilha do Google Sheets, pegando arquivo backup!'):
+        time.sleep(5)
+    try:
+        df = save_df_two()
+    except:
+         st.warning("Erro ao carregar TUDO X.X")
 
 
-df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
-
-df['Empresa'] = df['Empresa'].str.lower().str.strip()
-df['Motivos'] = df['Motivos'].str.lower().str.strip()
-df['Empresa'] = df['Empresa'].replace(SUBS)
-df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
-
-
-empresas = df['Empresa'].unique()
-contagem_nomes = df['Empresa'].value_counts()
+empresas = df['Match'].unique()
+contagem_nomes = df['Match'].value_counts()
 
 novo_df = pd.DataFrame({'Empresa': contagem_nomes.index, 'Contagem': contagem_nomes.values})
+novo_df = motivos(df, novo_df)
 
-for motivo in MOTIVOS:
-    contagem_racismo = df.groupby('Empresa')['Motivos'].apply(lambda x: x.str.contains(motivo).sum()).reset_index()
-    contagem_racismo = contagem_racismo.rename(columns={'Motivos': motivo})
-    novo_df = novo_df.merge(contagem_racismo, on='Empresa', how='left')
 
 opcoes = ['Contagem'] + MOTIVOS 
-
-st.info("Planilha fonte: https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview")
-st.info('Formulário para preencher: https://docs.google.com/forms/d/e/1FAIpQLSdsmCP5YB4zgtfhR5xLFeqoCMDBVVcNLe2KIzAdJelwPs5-1A/viewform')
-
-
 escolha = st.selectbox('Selecione o que você quer comparar!:', options=opcoes)
 
 
 
-## PEGA AS PALAVRAS QUE MAIS APARECEM NA COLUNA MOTIVOS
-#df = df.dropna(subset=['Motivos'])
-#df['Motivos'] = df['Motivos'].astype(str)
-#word_list = [word for line in df['Motivos'] for word in word_tokenize(line)]
-#word_counts = Counter(word_list)
-#most_common_words = [(word, count) for word, count in word_counts.items() if len(word) > 5]
 
-
-
-with st.expander("Dataframe"):
-    st.info(f"Linhas: {len(empresas)}")
-    st.dataframe(novo_df, use_container_width=True)
-
-if escolha:
-
-    df_filtro = novo_df.groupby('Empresa')[escolha].sum().reset_index(name=escolha)
-    top15 = df_filtro.nlargest(20, escolha)
-    novo_df = novo_df[novo_df['Empresa'].isin(top15['Empresa'])]
-
-
-    fig = px.bar(
-            novo_df, 
-            x=novo_df[escolha], 
-            y=novo_df['Empresa'], 
-            text=novo_df['Empresa'],
-            template='presentation',
-            
-        )
-
-    fig.update_layout(yaxis={'categoryorder': 'total ascending'})
-    fig.update_layout(height=(800))
-
-    fig.update_traces(
-            textfont_size=19, 
-            textposition="inside", 
-            cliponaxis=False,
-            insidetextanchor="middle",
-            hovertemplate=None,
-        
-
-        )
-
-    st.plotly_chart(fig, use_container_width=True)
+chart(novo_df, escolha, df)
