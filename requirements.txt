@@ -2,3 +2,4 @@ plotly
 pandas
 streamlit
 fuzzywuzzy
+Pillow
