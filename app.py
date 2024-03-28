@@ -183,6 +183,10 @@ def save_df():
         df = pd.read_csv('https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/export?format=csv')
             
         df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
+        df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
+
+
+
         df['Empresa'] =  df['Empresa'].astype(str)
         df['Motivos'] = df['Motivos'].astype(str)
         df['Empresa'] = df['Empresa'].str.lower().str.strip()
@@ -214,6 +218,8 @@ def save_df_two():
     df = df = pd.read_csv('assets/DADOS.csv')
         
     df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
+    df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
+
     df['Empresa'] =  df['Empresa'].astype(str)
     df['Motivos'] = df['Motivos'].astype(str)
     df['Empresa'] = df['Empresa'].str.lower().str.strip()
