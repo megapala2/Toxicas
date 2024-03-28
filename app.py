@@ -180,7 +180,7 @@ def save_df():
 @st.cache_data
 def save_df_two():
 
-    df = df = pd.read_csv('assets/DADOS.csv')
+    df = df = pd.read_excel('assets/DADOS.xlsx')
         
     df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
     df['Empresa'] =  df['Empresa'].astype(str)
@@ -243,8 +243,14 @@ def chart(novo_df, escolha, df):
 
         fig.update_layout(yaxis={'categoryorder': 'total ascending'})
         fig.update_layout(height=(800))
-        fig.update_layout(xaxis={"dtick":1},margin={"t":0,"b":0},height=800)
         fig.for_each_xaxis(lambda x: x.update(showgrid=True))
+        
+        fig.update_traces(
+                marker_color = '#f75e5e', 
+                marker_line_color = 'black',
+                marker_line_width = 2, 
+                opacity = 1
+                )
 
         fig.update_traces(
                 textfont_size=19, 
@@ -252,11 +258,13 @@ def chart(novo_df, escolha, df):
                 cliponaxis=False,
                 insidetextanchor="middle",
                 hovertemplate=None,
+                textfont_color='black'
             
-
             )
+        
+        container = st.container(height=800)
 
-        st.plotly_chart(fig, use_container_width=True)
+        container.plotly_chart(fig, use_container_width=True)
 
 class fuzzzz:
 
@@ -281,16 +289,7 @@ class fuzzzz:
 
 st_init()
 
-try:
-    df = save_df()
-except:
-    with st.spinner('Erro ao carregar a planilha do Google Sheets, pegando arquivo backup!'):
-        time.sleep(5)
-    try:
-        df = save_df_two()
-    except:
-         st.warning("Erro ao carregar TUDO X.X")
-
+df = save_df()
 
 empresas = df['Match'].unique()
 contagem_nomes = df['Match'].value_counts()
