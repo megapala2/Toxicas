@@ -258,7 +258,7 @@ def chart(novo_df, escolha, df):
     df['Data'] = df['Match']
     df = df.drop(columns='Match')
     df = df.rename(columns={'Data':'Match', 'Empresa':'Data'})
-    df = df.drop(columns='Data')
+    
     df = df.reset_index()
 
 
