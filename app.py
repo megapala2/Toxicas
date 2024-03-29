@@ -218,7 +218,7 @@ def save_df():
 @st.cache_data
 def save_df_two():
 
-    st.sidebar.warning('A planilha está interditada! Logo estaremos usando um arquivo de backup de 28/03/2024!')
+    st.sidebar.warning('A planilha está interditada! Logo estaremos usando um arquivo de backup de 29/03/2024!')
     df = df = pd.read_csv('assets/DADOS.csv')
         
     df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
