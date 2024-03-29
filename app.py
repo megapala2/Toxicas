@@ -195,9 +195,8 @@ def save_df():
         
 
 
-    df = df.rename(columns={df.columns[0]: 'Empresa'})
-    df['Data'] = 'NA'
-
+    df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
+    
     df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
 
     df['Empresa'] =  df['Empresa'].astype(str)
@@ -258,7 +257,7 @@ def chart(novo_df, escolha, df):
     df['Data'] = df['Match']
     df = df.drop(columns='Match')
     df = df.rename(columns={'Data':'Match', 'Empresa':'Data'})
-    
+    df = df.drop(columns='Data')
     df = df.reset_index()
 
 
