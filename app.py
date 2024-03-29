@@ -157,7 +157,7 @@ SUBS = {"itaú unibanco": "itaú",
 
 }
 
-MOTIVOS = ["Racismo", "Machismo", "Burnout", "Assédio", "Toxicidade", "Salário", "Liderença", 'Homofobia','Hostil', 'Sexismo', 'Xenofobia']
+MOTIVOS = ["Racismo", "Machismo", "Burnout", "Assédio", "Tóxico", "Salário", "Liderença", 'Homofobia','Hostil', 'Sexismo', 'Xenofobia', 'Preconceito', 'Transfobia', 'Gestão']
 
 current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 css_file = current_dir / "styles" / "main.css"
@@ -181,34 +181,38 @@ def save_df():
     try:
    
         df = pd.read_csv('https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/export?format=csv')
-            
-        df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
-        df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
-
-
-
-        df['Empresa'] =  df['Empresa'].astype(str)
-        df['Motivos'] = df['Motivos'].astype(str)
-        df['Empresa'] = df['Empresa'].str.lower().str.strip()
-        df['Motivos'] = df['Motivos'].str.lower().str.strip()
-    
-        df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
-        df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
         
-        
-        df = df.drop(df[df['Match'] == 'NA'].index)
-        df = fuzzzz.verificar_ocorrencias(df)
-        return df
 
     except:
-
         with st.spinner('Erro ao carregar a planilha do Google Sheets, pegando arquivo backup!'):
             time.sleep(5)
             try:
+            
                  df = save_df_two()
                  return df
             except:
                  st.warning("Erro ao carregar TUDO X.X")
+        
+
+
+    df = df.rename(columns={df.columns[0]: 'Empresa'})
+    df['Data'] = 'NA'
+
+    df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
+
+    df['Empresa'] =  df['Empresa'].astype(str)
+    df['Motivos'] = df['Motivos'].astype(str)
+    df['Empresa'] = df['Empresa'].str.lower().str.strip()
+    df['Motivos'] = df['Motivos'].str.lower().str.strip()
+
+    df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
+    df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
+    
+    df = df.drop(df[df['Match'] == 'NA'].index)
+    df = fuzzzz.verificar_ocorrencias(df)
+
+  
+    return df
 
 
 @st.cache_data
@@ -224,6 +228,8 @@ def save_df_two():
     df['Motivos'] = df['Motivos'].astype(str)
     df['Empresa'] = df['Empresa'].str.lower().str.strip()
     df['Motivos'] = df['Motivos'].str.lower().str.strip()
+
+    
    
     df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
     df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
@@ -231,6 +237,7 @@ def save_df_two():
     
     df = df.drop(df[df['Match'] == 'NA'].index)
     df = fuzzzz.verificar_ocorrencias(df)
+
 
     return df
 
@@ -251,9 +258,9 @@ def chart(novo_df, escolha, df):
     df['Data'] = df['Match']
     df = df.drop(columns='Match')
     df = df.rename(columns={'Data':'Match', 'Empresa':'Data'})
+    df = df.drop(columns='Data')
     df = df.reset_index()
 
-  
 
     with st.expander("Dataframe"):
         st.info(f"Linhas: {len(novo_df)}")
@@ -318,7 +325,7 @@ class fuzzzz:
         for target in EMPRESAS:
            
             ratio = fuzz.ratio(name.lower(), target.lower()) 
-            if ratio > 50:  
+            if ratio > 80:  
                 return target
             
         return "NA"
@@ -342,11 +349,8 @@ contagem_nomes = df['Match'].value_counts()
 novo_df = pd.DataFrame({'Empresa': contagem_nomes.index, 'Contagem': contagem_nomes.values})
 novo_df = motivos(df, novo_df)
 
-
 opcoes = ['Contagem'] + MOTIVOS 
 escolha = st.selectbox('Selecione o que você quer comparar!:', options=opcoes)
-
-
 
 
 chart(novo_df, escolha, df)
