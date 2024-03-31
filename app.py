@@ -81,6 +81,55 @@ EMPRESAS = [
     "Ish",
     "4p",
     "Zurich",
+    "Zamp",
+    "Zenvia",
+    "Yazaki",
+    "Fadel",
+    "Will Bank",
+    "Weme",
+    "Way2",
+    "Vtex",
+    "Visagio",
+    "Vero",
+    "V4",
+    "UP BR",
+    "UOL",
+    "Ultrafarma",
+    "Uber",
+    "Tools",
+    "Tokstok",
+    "Tivit",
+    "TIM",
+    "Teleperformance",
+    "Suno",
+    "Squadra",
+    "Softplan",
+    "Sinergy RH",
+    "Sicredi",
+    "Shopee",
+    "Senac",
+    "Renner",
+    "Raízen",
+    "QuintoAndar",
+    "PwC",
+    "Porto Seguro",
+    "Pepsico",
+    "Pearson",
+    "Osten Moove",
+    "Oi",
+    "NTT",
+    "NOMAD",
+    "Nissan",
+    "Neon",
+
+
+
+
+    
+
+
+
+
 
 
 
