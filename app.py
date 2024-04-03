@@ -231,6 +231,7 @@ def save_df():
    
         df = pd.read_csv('https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/export?format=csv')
         
+        
 
     except:
         with st.spinner('Erro ao carregar a planilha do Google Sheets, pegando arquivo backup!'):
@@ -242,11 +243,13 @@ def save_df():
             except:
                  st.warning("Erro ao carregar TUDO X.X")
         
-
+    df = df.drop(df.columns[[0,4]], axis=1)
 
     df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
     
     df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
+
+    
 
     df['Empresa'] =  df['Empresa'].astype(str)
     df['Motivos'] = df['Motivos'].astype(str)
@@ -390,6 +393,8 @@ class fuzzzz:
 st_init()
 
 df = save_df()
+
+
 
 empresas = df['Match'].unique()
 contagem_nomes = df['Match'].value_counts()
