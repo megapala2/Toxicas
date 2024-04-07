@@ -137,76 +137,19 @@ EMPRESAS = [
 
             ]
 
-SUBS = {"itaú unibanco": "itaú",
-        "itau": "itaú",
-        "ambev tech": "ambev",
-        "stone pagamentos": "stone",
-        "serasa experian": "serasa",
-        "dti sistemas": "dti digital",
-        "xp investimentos": "xp",
-        "xp inc.": "xp",
-        "ci&t software s/a": "ci&t",
-        "carrefour - ms": "carrefour",
-        "carrefour icatu brasil": "carrefour",
-        "caixa econômica federal (cef)": "caixa federal",
-        "cactus gaming corporation": "cactus corporation",
-        "brq digital solution": "brq",
-        "brave ag": "brave",
-        "bees da ab inbev": "ambev",
-        "bees brasil": "ambev",
-        "bees bank ambev": "ambev",
-        "bees bank - ambev": "ambev",
-        "bees": "ambev",
-        "ambevtech": "ambev",
-        "ambev/bees": "ambev",
-        "ambev e ambectech": "ambev",
-        "ambev (bees bank)": "ambev",
-        "99 tecnologia": "99jobs",
-        "accenture (projeto oi)": "accenture",
-        "acuda - associação cultural e de desenvolvimento do apenado e egresso": "acuda",
-        "afya educacional": "afya",
-        "agência 4pix": "agência 4p",
-        "zurich seguros": "zurich",
-        "zup innovation": "zup",
-        "xp inc": "xp",
-        "wiz co.": "wiz",
-        "wyse system ltda": "wise system",
-        "wipro do brasil": "wipro",
-        "wb produções artísticas e culturais": "wb produções",
-        "vortx dtvm": "vortx",
-        "vivo telefônica": "vivo",
-        "vivo (telefônica brasil)": "vivo",
-        "avanade/accenture": "accenture",
-        "wise system ltda": "wise system",
-        "bees (ambev)": "ambev",
-        "stone co": "stone",
-        "pagar.me - stone co": "stone",
-        "stone instituição de pagamentos sa": "stone",
-        "proxxi tecnologia (ibm)": "ibm",
-        "proxxi": "ibm",
-        "stefanini brasil": "stefanini",
-        "stefanini consultoria": "stefanini",
-        "stefanini it": "stefanini",
-        "banco itaú": "itaú",
-        "itaú, modec do brasil, agência havas+, softdesign, copa studio": "itaú",
-        "ish - tecnologia": "ish",
-        "isaac (arco tech)": "isaac",
-        "ifood /anota aí": "ifood",
-        "santander / f1rst": "santander",
-        "banco santander": "santander",
-        "f1rst tecnologia (santander)": "santander",
-        "first - grupo santander": "santander",
-        "f1rst tecnologia - banco santander": "santander",
-        "f1rst santander": "santander",
-        "f1rst empresa do santander": "santander",
-        "f1rst - santander": "santander",
-        "autoglass e btg pactual": "btg pactual",
-        "btg": "btg pactual",
-        "vivo (telefonica brasil)": "vivo",
-
-}
-
-MOTIVOS = ["Racismo", "Machismo", "Burnout", "Assédio", "Tóxico", "Salário", "Liderença", 'Homofobia','Hostil', 'Sexismo', 'Xenofobia', 'Preconceito', 'Transfobia', 'Gestão']
+MOTIVOS = [
+    'DIVERSIDADE',
+    'ASSÉDIO(MORAL/SEXUAL)',
+    'SALÁRIO/BENEFÍCIOS',
+    'MICROGERENCIAMENTO',
+    'COMUNICAÇÃO/TRANSPARÊNCIA',
+    'POSSIBILIDADE DE CRESCIMENTO',
+    'SEGURANÇA/SAÚDE',
+    'FERRAMENTAS DE TRABALHO',
+    'LIDERANÇA TÓXICA',
+    'CARGA DE TRABALHO EXCESSIVA',
+    'Outros'
+]
 
 current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 css_file = current_dir / "styles" / "main.css"
@@ -219,78 +162,60 @@ def st_init():
         st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
     st.title("EMPRESAS TÓXICAS BRASIL")
+    st.sidebar.image('https://exposedworkplaces.com/wp-content/uploads/2024/03/empresa_mais_toxicas_brazil.png')
+    
+    
+    with st.sidebar.popover('Créditos'):
+        criador_planilha = st.info('Criador da planilha: https://www.linkedin.com/in/andersonweber/')
+        criador_dashboard = st.info('Criador desse dashbord: https://www.linkedin.com/in/thales-rudolph-b7511a16a/')
    
-    st.sidebar.image('https://worstplacetowork.com.br/wp-content/uploads/2024/03/worstplacetoworklogo.png')
-    fonte = st.sidebar.info("Planilha fonte: https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview")
-    form = st.sidebar.info('Formulário para preencher: https://docs.google.com/forms/d/e/1FAIpQLSdsmCP5YB4zgtfhR5xLFeqoCMDBVVcNLe2KIzAdJelwPs5-1A/viewform')
+
+    with st.sidebar.popover('Fonte'):
+        fonte = st.info("Planilha fonte: https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/htmlview")
+        form = st.info('Formulário para preencher: https://docs.google.com/forms/d/e/1FAIpQLSdsmCP5YB4zgtfhR5xLFeqoCMDBVVcNLe2KIzAdJelwPs5-1A/viewform')
+    
    
+        
 @st.cache_data
 def save_df():
 
     try:
-   
+
         df = pd.read_csv('https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/export?format=csv')
-        
-        
+        try:   
 
-    except:
-        with st.spinner('Erro ao carregar a planilha do Google Sheets, pegando arquivo backup!'):
-            time.sleep(5)
-            try:
+            df = df.dropna(axis=1, how='all')     
+            df = df.drop(df.columns[[3,4,6]], axis=1)
+
+            df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa', df.columns[3]: 'Motivos' })
+
             
-                 df = save_df_two()
-                 return df
-            except:
-                 st.warning("Erro ao carregar TUDO X.X")
+            #df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
+
+            df['Empresa'] =  df['Empresa'].astype(str)
+            df['Motivos'] = df['Motivos'].astype(str)
+            df['Empresa'] = df['Empresa'].str.lower().str.strip()
+            df['Motivos'] = df['Motivos'].str.lower().str.strip()
+
+            df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
+            df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
+            
+            df = df.drop(df[df['Match'] == 'NA'].index)
+            df = fuzzzz.verificar_ocorrencias(df)
+
+            return df
+
+        except:
+
+            return st.warning('A formatação das colunas da planilha original mudou! Logo o código daqui morreu! X.X Por favor comunicar o dono desse dashboard!')
+    
+    except:
         
-    df = df.drop(df.columns[[0,4]], axis=1)
+        return st.warning('A planilha original está interditada no momento! Erro ao extrair os dados!')
 
-    df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
-    
-    df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
-
-    
-
-    df['Empresa'] =  df['Empresa'].astype(str)
-    df['Motivos'] = df['Motivos'].astype(str)
-    df['Empresa'] = df['Empresa'].str.lower().str.strip()
-    df['Motivos'] = df['Motivos'].str.lower().str.strip()
-
-    df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
-    df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
-    
-    df = df.drop(df[df['Match'] == 'NA'].index)
-    df = fuzzzz.verificar_ocorrencias(df)
-
-  
-    return df
-
-
-@st.cache_data
-def save_df_two():
-
-    st.sidebar.warning('A planilha está interditada! Logo estaremos usando um arquivo de backup de 29/03/2024!')
-    df = df = pd.read_csv('assets/DADOS.csv')
-        
-    df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa'})
-    df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
-
-    df['Empresa'] =  df['Empresa'].astype(str)
-    df['Motivos'] = df['Motivos'].astype(str)
-    df['Empresa'] = df['Empresa'].str.lower().str.strip()
-    df['Motivos'] = df['Motivos'].str.lower().str.strip()
-
-    
    
-    df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
-    df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
-    
-    
-    df = df.drop(df[df['Match'] == 'NA'].index)
-    df = fuzzzz.verificar_ocorrencias(df)
 
-
-    return df
+    
 
 def motivos(df, novo_df):
     
@@ -303,8 +228,18 @@ def motivos(df, novo_df):
     
     return novo_df
 
-def chart(novo_df, escolha, df):
+@st.experimental_fragment
+def chart(novo_df, df):
 
+    container = st.container()
+    colunas1, colunas2 = container.columns(2)
+
+    empresas = colunas1.selectbox('Selecione a empresa!', options=EMPRESAS, index=None)
+
+    opcoes = ['Contagem'] + MOTIVOS 
+    escolha = colunas2.selectbox('Selecione a ocorrência!', options=opcoes)
+
+  
     df['Empresa'] = df['Data']
     df['Data'] = df['Match']
     df = df.drop(columns='Match')
@@ -312,8 +247,11 @@ def chart(novo_df, escolha, df):
     df = df.drop(columns='Data')
     df = df.reset_index()
 
+    if empresas:
+        novo_df = novo_df[novo_df['Match'] == empresas]
 
-    with st.expander("Dataframe"):
+
+    with container.expander("Dataframe"):
         st.info(f"Linhas: {len(novo_df)}")
         st.dataframe(novo_df, use_container_width=True)
         
@@ -321,53 +259,161 @@ def chart(novo_df, escolha, df):
         st.dataframe(df, use_container_width=True)
 
     if escolha:
+       main_chart(novo_df, escolha, container)
+       col1, col2 = container.columns(2)
+       top3_chart(novo_df, escolha, col1)
+       motivos_chart(novo_df, escolha, col2)
 
-        df_filtro = novo_df.groupby('Match')[escolha].sum().reset_index(name=escolha)
-        top15 = df_filtro.nlargest(20, escolha)
-        novo_df = novo_df[novo_df['Match'].isin(top15['Match'])]
 
-
-        fig = px.bar(
-                novo_df, 
-                x=novo_df[escolha], 
-                y=novo_df['Match'], 
-                text=novo_df['Match'],
-                template='presentation',
-                title=escolha,
-                
-            )
-
-        fig.update_layout(yaxis={'categoryorder': 'total ascending'})
-        fig.update_layout(height=(800))
         
-        fig.for_each_xaxis(lambda x: x.update(showgrid=True))
-        
-        fig.update_traces(
-                marker_color = '#f75e5e', 
-                marker_line_color = 'black',
-                marker_line_width = 2, 
-                opacity = 1
-                )
 
-        fig.update_traces(
-                textfont_size=21, 
-                textposition="inside",
-                cliponaxis=False,
-                insidetextanchor="middle",
-                hovertemplate=None,
-                textfont_color='#000000 '
+def main_chart(novo_df, escolha, container):
+
+    df_filtro = novo_df.groupby('Match')[escolha].sum().reset_index(name=escolha)
+    top20 = df_filtro.nlargest(20, escolha)
+    novo_df = novo_df[novo_df['Match'].isin(top20['Match'])]
+
+
+    fig = px.bar(
+            novo_df, 
+            x=novo_df[escolha], 
+            y=novo_df['Match'], 
+            text=novo_df['Match'],
+            template='presentation',
+            title=escolha,
             
-            )
-        
-        fig.update_layout(
-            
-            title_font=dict(size=24),
-           
         )
-        
-        container = st.container()
 
-        container.plotly_chart(fig, use_container_width=True)
+    fig.update_layout(yaxis={'categoryorder': 'total ascending'})
+    fig.update_layout(height=(800))
+    
+    fig.for_each_xaxis(lambda x: x.update(showgrid=True))
+    
+    fig.update_traces(
+            marker_color = '#f75e5e', 
+            marker_line_color = 'black',
+            marker_line_width = 2, 
+            opacity = 1
+            )
+
+    fig.update_traces(
+            textfont_size=21, 
+            textposition="inside",
+            cliponaxis=False,
+            insidetextanchor="middle",
+            hovertemplate=None,
+            textfont_color='#000000 '
+        
+        )
+    
+    fig.update_layout(
+        
+        title_font=dict(size=24),
+        
+    )
+    
+    container.plotly_chart(fig, use_container_width=True)
+
+def top3_chart(novo_df, escolha, col1):
+
+    df_filtro = novo_df.groupby('Match')[escolha].sum().reset_index(name=escolha)
+    top3 = df_filtro.nlargest(3, escolha)
+    novo_df = novo_df[novo_df['Match'].isin(top3['Match'])]
+
+
+    fig = px.bar(
+            novo_df, 
+            x=novo_df['Match'], 
+            y=novo_df[escolha], 
+            text=novo_df['Match'],
+            template='presentation',
+            title='Top 3',
+            orientation='v'
+            
+        )
+
+    fig.update_layout(yaxis={'categoryorder': 'total ascending'})
+    fig.update_layout(height=(500))
+    
+    fig.for_each_xaxis(lambda x: x.update(showgrid=True))
+    
+    fig.update_traces(
+            marker_color = '#f75e5e', 
+            marker_line_color = 'black',
+            marker_line_width = 2, 
+            opacity = 1
+            )
+
+    fig.update_traces(
+            textfont_size=21, 
+            textposition="inside",
+            cliponaxis=False,
+            insidetextanchor="middle",
+            hovertemplate=None,
+            textfont_color='#000000 '
+        
+        )
+    
+    fig.update_layout(
+        
+        title_font=dict(size=24),
+        
+    )
+    
+    col1.plotly_chart(fig, use_container_width=True)
+
+def motivos_chart(novo_df, escolha, col1):
+
+    df = pd.DataFrame({'Ocorrência':[], 'Contagem':[]})
+
+    for motivo in MOTIVOS:
+        if motivo != 'Outros':
+            Contagem = novo_df[motivo].sum()
+            df = df.append({'Ocorrência': motivo, 'Contagem': Contagem}, ignore_index=True)
+    
+    
+
+    fig = px.bar(
+            df, 
+            x=df['Contagem'], 
+            y=df['Ocorrência'], 
+            text=df['Contagem'],
+            template='presentation',
+            title='Principais Ocorrências',
+            orientation='h'
+            
+        )
+
+    fig.update_layout(yaxis={'categoryorder': 'total ascending'})
+    fig.update_layout(height=(500))
+    
+    fig.for_each_xaxis(lambda x: x.update(showgrid=True))
+    
+    fig.update_traces(
+            marker_color = '#f75e5e', 
+            marker_line_color = 'black',
+            marker_line_width = 2, 
+            opacity = 1
+            )
+
+    fig.update_traces(
+            textfont_size=21, 
+            textposition="inside",
+            cliponaxis=False,
+            insidetextanchor="middle",
+            hovertemplate=None,
+            textfont_color='#000000 '
+        
+        )
+    
+    fig.update_layout(
+        
+        title_font=dict(size=24),
+        
+    )
+    
+    col1.plotly_chart(fig, use_container_width=True)
+
 
 class fuzzzz:
 
@@ -394,16 +440,11 @@ st_init()
 
 df = save_df()
 
-
-
 empresas = df['Match'].unique()
 contagem_nomes = df['Match'].value_counts()
 
 novo_df = pd.DataFrame({'Empresa': contagem_nomes.index, 'Contagem': contagem_nomes.values})
 novo_df = motivos(df, novo_df)
 
-opcoes = ['Contagem'] + MOTIVOS 
-escolha = st.selectbox('Selecione o que você quer comparar!:', options=opcoes)
 
-
-chart(novo_df, escolha, df)
+chart(novo_df, df)
