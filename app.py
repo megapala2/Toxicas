@@ -369,7 +369,12 @@ def motivos_chart(novo_df, escolha, col1):
     for motivo in MOTIVOS:
         if motivo != 'Outros':
             Contagem = novo_df[motivo].sum()
-            df = df.append({'Ocorrência': motivo, 'Contagem': Contagem}, ignore_index=True)
+            # Criando um dicionário com os valores da nova linha
+            nova_linha = {'Ocorrência': motivo, 'Contagem': Contagem}
+            # Inserindo a nova linha no DataFrame na primeira posição
+            df.loc[-1] = nova_linha
+            df.index = df.index + 1  # Ajustando os índices
+            df = df.sort_index()  # Ordenando os índices
     
     
 
