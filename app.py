@@ -122,7 +122,7 @@ EMPRESAS = [
     "Ciatc",
     "Cruzeiro do Sul Educacional",
     "Viasoft",
-    
+
 
 
 
@@ -142,7 +142,7 @@ EMPRESAS = [
 
 MOTIVOS = [
     'DIVERSIDADE',
-    'ASSÉDIO(MORAL/SEXUAL)',
+    'ASSÉDIO',
     'SALÁRIO/BENEFÍCIOS',
     'MICROGERENCIAMENTO',
     'COMUNICAÇÃO/TRANSPARÊNCIA',
@@ -368,6 +368,7 @@ def motivos_chart(novo_df, escolha, col1):
 
     for motivo in MOTIVOS:
         if motivo != 'Outros':
+            
             Contagem = novo_df[motivo].sum()
             # Criando um dicionário com os valores da nova linha
             nova_linha = {'Ocorrência': motivo, 'Contagem': Contagem}
@@ -434,7 +435,6 @@ class fuzzzz:
     
     def verificar_ocorrencias(df):
         for categoria in MOTIVOS:
-            # Para cada categoria, cria uma nova coluna no dataframe indicando se houve ocorrência
             df[categoria] = df['Motivos'].str.contains(categoria, case=False)
         return df
 
@@ -450,6 +450,5 @@ contagem_nomes = df['Match'].value_counts()
 
 novo_df = pd.DataFrame({'Empresa': contagem_nomes.index, 'Contagem': contagem_nomes.values})
 novo_df = motivos(df, novo_df)
-
 
 chart(novo_df, df)
