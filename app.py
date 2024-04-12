@@ -2,10 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
-import time
 from pathlib import Path
-import os
+
 
 EMPRESAS = [
     "Wise System",
@@ -176,7 +174,7 @@ def st_init():
     
    
         
-@st.cache_data
+@st.cache_data(ttl='1d')
 def save_df():
 
     try:
@@ -188,9 +186,6 @@ def save_df():
             df = df.drop(df.columns[[3,4,6]], axis=1)
 
             df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa', df.columns[3]: 'Motivos' })
-
-            
-            #df = df.drop_duplicates(subset=['Empresa', 'Motivos'])
 
             df['Empresa'] =  df['Empresa'].astype(str)
             df['Motivos'] = df['Motivos'].astype(str)
