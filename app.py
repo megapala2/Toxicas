@@ -119,6 +119,11 @@ EMPRESAS = [
     "NOMAD",
     "Nissan",
     "Neon",
+    "Ciatc",
+    "Cruzeiro do Sul Educacional",
+    "Viasoft",
+    
+
 
 
 
