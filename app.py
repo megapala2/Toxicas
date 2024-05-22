@@ -167,7 +167,7 @@ def st_init():
     st.title("EMPRESAS TÓXICAS BRASIL")
     st.sidebar.image('https://exposedworkplaces.com/img/logo1.png')
     st.info('Todas as informações aqui presentes estão DESATUALIZADAS, pois a planilha de denúncia deixou de ser pública e migrou para um site privado, de onde NÃO consigo extrair informações')
-    st.info('Última atualização doi de 28/03/2024')
+    st.info('Última atualização foi de 28/03/2024')
     
     with st.sidebar.popover('Créditos'):
         criador_planilha = st.info('Criador da planilha: https://www.linkedin.com/in/andersonweber/')
