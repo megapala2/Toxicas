@@ -165,8 +165,9 @@ def st_init():
         st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
     st.title("EMPRESAS TÓXICAS BRASIL")
-    st.sidebar.image('https://exposedworkplaces.com/wp-content/uploads/2024/03/empresa_mais_toxicas_brazil.png')
-    
+    st.sidebar.image('https://exposedworkplaces.com/img/logo1.png')
+    st.info('Todas as informações aqui presentes estão DESATUALIZADAS, pois a planilha de denúncia deixou de ser pública e migrou para um site privado, de onde NÃO consigo extrair informações')
+    st.info('Última atualização doi de 28/03/2024')
     
     with st.sidebar.popover('Créditos'):
         criador_planilha = st.info('Criador da planilha: https://www.linkedin.com/in/andersonweber/')
@@ -182,41 +183,29 @@ def st_init():
 @st.cache_data(ttl='1d')
 def save_df():
 
-    try:
-
-        df = pd.read_csv('https://docs.google.com/spreadsheets/u/0/d/1u1_8ND_BY1DaGaQdu0ZRZPebrOaTJekE9hyw_7BAlzw/export?format=csv')
-        try:   
-
-            df = df.dropna(axis=1, how='all')     
-            df = df.drop(df.columns[[3,4,6]], axis=1)
-
-            df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa', df.columns[3]: 'Motivos' })
-
-            df['Empresa'] =  df['Empresa'].astype(str)
-            df['Motivos'] = df['Motivos'].astype(str)
-            df['Empresa'] = df['Empresa'].str.lower().str.strip()
-            df['Motivos'] = df['Motivos'].str.lower().str.strip()
-
-            df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
-            df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
-            
-            df = df.drop(df[df['Match'] == 'NA'].index)
-            df = fuzzzz.verificar_ocorrencias(df)
-
-            return df
-
-        except:
-
-            return st.warning('A formatação das colunas da planilha original mudou! Logo o código daqui morreu! X.X Por favor comunicar o dono desse dashboard!')
-    
-    except:
-        
-        return st.warning('A planilha original está interditada no momento! Erro ao extrair os dados!')
-
    
 
-    
+        df = pd.read_excel('assets/DADOS.xlsx')
+        
+       
+        df = df.rename(columns={df.columns[0]: 'Data', df.columns[1]: 'Empresa', df.columns[2]: 'Motivos' })
 
+       
+
+        df['Empresa'] =  df['Empresa'].astype(str)
+        df['Motivos'] = df['Motivos'].astype(str)
+        df['Empresa'] = df['Empresa'].str.lower().str.strip()
+        df['Motivos'] = df['Motivos'].str.lower().str.strip()
+
+        df['Contagem'] = df['Empresa'].map(df['Empresa'].value_counts())
+        df['Match'] = df['Empresa'].apply(fuzzzz.find_matching_company)
+        
+        df = df.drop(df[df['Match'] == 'NA'].index)
+        df = fuzzzz.verificar_ocorrencias(df)
+
+        return df
+
+    
 def motivos(df, novo_df):
     
     novo_df = novo_df.rename(columns={'Empresa': 'Match'})
